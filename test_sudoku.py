@@ -18,7 +18,7 @@ class Test_Sudoku_Validez(unittest.TestCase):
         )
 
     def test_pos_original(self):
-        value = self.game.varify.is_position_original(1, 1)
+        value = self.game.is_position_original(1, 1)
         self.assertTrue(value)
 
     def test_pos_no_original(self):
