@@ -3,29 +3,20 @@
 class SUDOKU():
 
     def __init__(self, table):
-        self.subspace = {}
-        self.board_original = [[0 for __ in range(9)] for _ in range(9)]
-        i = -1
-        for line in table:
-            i += 1
-            j = -1
-            listat = []
-            for value in line:
-                j += 1
-                temp = (i * 9)+j
-                listat.append(temp)
-                if value.isdigit():
-                    self.board_original[i][j] = value
-                if value == 'x':
-                    self.board_original[i][j] = value
-            self.subspace = {i: listat}
-        self.board_player = self.board_original
+        self.board_player = []
+        self.board_original = [None] * 81
+        j = 0
+        for letter in table:
+            par = [letter, j + 1]
+            self.board_original[j] = par
+            j += 1
+            
+        self.board_original = self.board_player
+        # Boardp es la posicion t
 
     def game_definition(self, posx, posy, number):
-        self.posx = posx
-        self.posy = posy
         self.number = number
-        temp = (posx * 9)+posy
+        self.board_pos = (posy * 9) + posx
 
     def is_position_orginial(self):
         if self.board_original[self.posx][self.posy].isdigit():
@@ -33,6 +24,21 @@ class SUDOKU():
         elif self.board_original[self.posx][self.posy] == 'x':
             return False
 
-    def is_in_area(self):
-        
+#    def is_in_area(self):
+#        temp = (self.posx * 9)+self.posy
+#        if 
+
     def is_in_line(self):
+        if self.board_player[self.posx].find(self.number) == -1:
+            return False
+        else:
+            return True
+
+    def is_in_colum(self):
+        find = -1
+        for lista in self.board_player:
+            find = self.board_original[lista][self.posy].find(self.number)
+        if find == -1:
+            return True
+        else:
+            return False

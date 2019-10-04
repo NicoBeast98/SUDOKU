@@ -1,0 +1,16 @@
+        self.subspace = {}
+        self.board_original = [[0 for __ in range(9)] for _ in range(9)]
+        i = -1
+        for line in table:
+            i += 1
+            j = -1
+            listat = []
+            for value in line:
+                j += 1
+                temp = (i * 9)+j
+                listat.append(temp)
+                if value.isdigit():
+                    self.board_original[i][j] = value
+                if value == 'x':
+                    self.board_original[i][j] = value
+            self.subspace = {i: listat}
