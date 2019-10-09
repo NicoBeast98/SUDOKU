@@ -6,6 +6,9 @@ class Sudoku():
         self.n2 = 3
         self.n3 = 0
         self.n4 = 3
+        self.fila = 0
+        self.colum = 0
+        self.num = ''
         i = -1
         j = -1
         for fila in self.tableroV:
@@ -18,6 +21,11 @@ class Sudoku():
                 if valor == 'x':
                     self.tablero[i][j] = valor
             self.tableroV = self.tablero
+
+    def valores(self, fila, colum, num):
+        self.fila = fila
+        self.colum = colum
+        self.num = num
 
     def verificar_x(self):
         x = 0
@@ -32,17 +40,14 @@ class Sudoku():
         return x
 
     def verificar_pos_original(self, i, j):
-        if self.tableroV[i][j] == 'x':
-            return True     # Posicion liberada
-        else:
-            return False    # Posicion bloqueada
+        return self.tableroV[i][j] == 'x'   # True posicion lib, False bloq
 
-    def verificar_bloque(self, num):
+    def verificar_bloque(self):
         try:
             for i in range(self.n3, self.n4):
                 for j in range(self.n1, self.n2):
                     k = self.tablero[i][j]
-                    if num == k:
+                    if self.num == k:
                         return False
         except():
             return
@@ -59,12 +64,12 @@ class Sudoku():
                 else:
                     self.n3 = self.n3 + 3
 
-    def verificar_fila_columna(self, i, j, num):
+    def verificar_fila_columna(self):
         for columna in range(0, 9):
-            if num == self.tablero[i][columna]:
+            if self.num == self.tablero[self.fila][columna]:
                 return False
         for fila in range(0, 9):
-            if num == self.tablero[fila][j]:
+            if self.num == self.tablero[fila][self.colum]:
                 return False
 
     def verificar_espacio(self):
@@ -73,16 +78,26 @@ class Sudoku():
                 if self.tablero[i][j] == 'x':
                     return i, j
 
-    def verificacion(self, fila, colum, num):
+    def verificacion(self):
         k = self.verificar_espacio()    # lista con fila y columna
-        if self.verificar_pos_original(fila, colum) is True:
-            if self.verificar_bloque(num) is None:
-                if self.verificar_fila_columna(k[0], k[1], num) is None:
-                    self.tablero[k[0]][k[1]] = num
-                    return "Numero Ingresado"
+        if self.verificar_pos_original(self.fila, self.colum) is True:
+            if self.verificar_bloque() is None:
+                if self.verificar_fila_columna() is None:
+                    return "Numero y posicion validas"
                 else:
                     return "El numero esta en una fila o columna"
             else:
                 return "El numero esta en el bloque"
         else:
             return "Esta posicion no puede ser modificada"
+
+    def ingreso(self):
+        self.tablero[self.fila][self.colum] = self.num
+
+    def game_status(self):
+        i = 0
+        j = 0
+        for i in range(0, 9):
+            for j in range(0, 9):
+                if self.tablero[i][j] == 'x':
+                    return False
