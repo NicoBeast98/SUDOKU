@@ -33,5 +33,6 @@ class TestSudoku(unittest.TestCase):
         value = self.juego.verificacion(0, 0, '5')
         self.assertEqual(value, "Esta posicion no puede ser modificada")
 
+
 if __name__ == "__main__":
     unittest.main()
