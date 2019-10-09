@@ -64,12 +64,12 @@ class Sudoku():
                 else:
                     self.n3 = self.n3 + 3
 
-    def verificar_fila_columna(self):
+    def verificar_fila_columna(self, i, j, num):
         for columna in range(0, 9):
-            if self.num == self.tablero[self.fila][columna]:
+            if num == self.tablero[i][columna]:
                 return False
         for fila in range(0, 9):
-            if self.num == self.tablero[fila][self.colum]:
+            if num == self.tablero[fila][j]:
                 return False
 
     def verificar_espacio(self):
@@ -82,7 +82,7 @@ class Sudoku():
         k = self.verificar_espacio()    # lista con fila y columna
         if self.verificar_pos_original(self.fila, self.colum) is True:
             if self.verificar_bloque() is None:
-                if self.verificar_fila_columna() is None:
+                if self.verificar_fila_columna(k[0], k[1], self.num) is None:
                     return "Numero y posicion validas"
                 else:
                     return "El numero esta en una fila o columna"

@@ -29,5 +29,6 @@ class TestIngresar(unittest.TestCase):
         value = self.juego.ingresar(1, 1, '6')
         self.assertEqual(value, "El numero esta en el bloque")
 
+
 if __name__ == "__main__":
     unittest.main()

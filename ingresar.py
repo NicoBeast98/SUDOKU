@@ -6,8 +6,8 @@ class Ingresar():
     def __init__(self, tablero):
         self.juego = Sudoku(tablero)
 
-    def ingresar(self, posx, posy, num):
-        self.juego.valores(posx, posy, num)
+    def ingresar(self, x, y, num):
+        self.juego.valores(x, y, num)
         val = self.juego.verificacion()
         if val == "Numero y posicion validas":
             self.juego.ingreso()
