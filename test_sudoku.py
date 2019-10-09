@@ -17,11 +17,21 @@ class TestSudoku(unittest.TestCase):
             'xxxx8xx79'
         ])
 
-    def test_numero_en_Bloque(self):
-        
-        value = self.juego.verificar_bloque('5')
-        self.assertEqual(value, None)
+    def test_ingreso_valido(self):
+        value = self.juego.verificacion(0, 2, '4')
+        self.assertEqual(value, "Numero Ingresado")
 
+    def test_numero_en_fila_o_columna_si_esta(self):
+        value = self.juego.verificacion(0, 2, '7')
+        self.assertEqual(value, "El numero esta en una fila o columna")
+
+    def test_numero_en_bloque(self):
+        value = self.juego.verificacion(0, 2, '6')
+        self.assertEqual(value, "El numero esta en el bloque")
+
+    def test_numero_en_pos_prohibida(self):
+        value = self.juego.verificacion(0, 0, '5')
+        self.assertEqual(value, "Esta posicion no puede ser modificada")
 
 if __name__ == "__main__":
     unittest.main()

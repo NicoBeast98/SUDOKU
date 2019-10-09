@@ -31,6 +31,12 @@ class Sudoku():
             return
         return x
 
+    def verificar_pos_original(self, i, j):
+        if self.tableroV[i][j] == 'x':
+            return True     # Posicion liberada
+        else:
+            return False    # Posicion bloqueada
+
     def verificar_bloque(self, num):
         try:
             for i in range(self.n3, self.n4):
@@ -67,11 +73,16 @@ class Sudoku():
                 if self.tablero[i][j] == 'x':
                     return i, j
 
-    def insertar_numero(self, num):
-        k = self.verificar_espacio()
-        if self.verificar_bloque(num) is None:
-            if self.verificar_fila_columna(k[0], k[1], num) is None:
-                self.tablero[k[0]][k[1]] = num
-                return "Numero ingresado"
+    def verificacion(self, fila, colum, num):
+        k = self.verificar_espacio()    # lista con fila y columna
+        if self.verificar_pos_original(fila, colum) is True:
+            if self.verificar_bloque(num) is None:
+                if self.verificar_fila_columna(k[0], k[1], num) is None:
+                    self.tablero[k[0]][k[1]] = num
+                    return "Numero Ingresado"
+                else:
+                    return "El numero esta en una fila o columna"
+            else:
+                return "El numero esta en el bloque"
         else:
-            return "Ingrese otro numero"
+            return "Esta posicion no puede ser modificada"
