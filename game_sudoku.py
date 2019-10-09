@@ -1,44 +1,77 @@
+class Sudoku():
+    def __init__(self, tablero):
+        self.tablero = [[0 for __ in range(9)] for _ in range(9)]
+        self.tableroV = tablero
+        self.n1 = 0
+        self.n2 = 3
+        self.n3 = 0
+        self.n4 = 3
+        i = -1
+        j = -1
+        for fila in self.tableroV:
+            i += 1
+            j = -1
+            for valor in fila:
+                j += 1
+                if valor.isdigit():
+                    self.tablero[i][j] = valor
+                if valor == 'x':
+                    self.tablero[i][j] = valor
+            self.tableroV = self.tablero
 
+    def verificar_x(self):
+        x = 0
+        try:
+            for i in range(self.n3, self.n4):
+                for j in range(self.n1, self.n2):
+                    k = self.tablero[i][j]
+                    if k == 'x':
+                        x += 1
+        except():
+            return
+        return x
 
-class SUDOKU():
+    def verificar_bloque(self, num):
+        try:
+            for i in range(self.n3, self.n4):
+                for j in range(self.n1, self.n2):
+                    k = self.tablero[i][j]
+                    if num == k:
+                        return False
+        except():
+            return
+        while 0 == self.verificar_x():
+            if i == (self.n2 - 1) or self.n2 < 9:
+                self.n1 = self.n1 + 3
+                self.n2 = self.n2 + 3
+            else:
+                self.n1 = 0
+                self.n2 = 3
+                self.n4 = self.n4 + 3
+                if self.n4 > 9:
+                    return
+                else:
+                    self.n3 = self.n3 + 3
 
-    def __init__(self, table):
-        self.board_player = []
-        self.board_original = [None] * 81
-        j = 0
-        for letter in table:
-            par = [letter, j + 1]
-            self.board_original[j] = par
-            j += 1
-            
-        self.board_original = self.board_player
-        # Boardp es la posicion t
+    def verificar_fila_columna(self, i, j, num):
+        for columna in range(0, 9):
+            if num == self.tablero[i][columna]:
+                return False
+        for fila in range(0, 9):
+            if num == self.tablero[fila][j]:
+                return False
 
-    def game_definition(self, posx, posy, number):
-        self.number = number
-        self.board_pos = (posy * 9) + posx
+    def verificar_espacio(self):
+        for i in range(self.n3, self.n4):
+            for j in range(self.n1, self.n2):
+                if self.tablero[i][j] == 'x':
+                    return i, j
 
-    def is_position_orginial(self):
-        if self.board_original[self.posx][self.posy].isdigit():
-            return True
-        elif self.board_original[self.posx][self.posy] == 'x':
-            return False
-
-#    def is_in_area(self):
-#        temp = (self.posx * 9)+self.posy
-#        if 
-
-    def is_in_line(self):
-        if self.board_player[self.posx].find(self.number) == -1:
-            return False
+    def insertar_numero(self, num):
+        k = self.verificar_espacio()
+        if self.verificar_bloque(num) is None:
+            if self.verificar_fila_columna(k[0], k[1], num) is None:
+                self.tablero[k[0]][k[1]] = num
+                return "Numero ingresado"
         else:
-            return True
-
-    def is_in_colum(self):
-        find = -1
-        for lista in self.board_player:
-            find = self.board_original[lista][self.posy].find(self.number)
-        if find == -1:
-            return True
-        else:
-            return False
+            return "Ingrese otro numero"
