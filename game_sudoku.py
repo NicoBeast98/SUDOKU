@@ -2,13 +2,6 @@ class Sudoku():
     def __init__(self, tablero):
         self.tablero = [[0 for __ in range(9)] for _ in range(9)]
         self.tableroV = tablero
-        self.n1 = 0
-        self.n2 = 3
-        self.n3 = 0
-        self.n4 = 3
-        self.fila = 0
-        self.colum = 0
-        self.num = ''
         i = -1
         j = -1
         for fila in self.tableroV:
@@ -20,70 +13,42 @@ class Sudoku():
                     self.tablero[i][j] = valor
                 if valor == 'x':
                     self.tablero[i][j] = valor
-            self.tableroV = self.tablero
+        self.tablero = self.tableroV.copy()
 
-    def valores(self, fila, colum, num):
-        self.fila = fila
-        self.colum = colum
-        self.num = num
+    def ingresar(self, x, y, num):
+        val = self.juego.verificacion(x, y, num)
+        if val == "Valido":
+            self.juego.ingreso(x, y, num)
+            if self.juego.game_status:
+                return 'Juego Terminado'
+            return 'Numero ingresado'
+        else:
+            return val
 
-    def verificar_x(self):
-        x = 0
-        try:
-            for i in range(self.n3, self.n4):
-                for j in range(self.n1, self.n2):
-                    k = self.tablero[i][j]
-                    if k == 'x':
-                        x += 1
-        except():
-            return
-        return x
+    def verificar_pos_original(self, fila, colum):
+        return self.tableroV[fila][colum] == 'x'
 
-    def verificar_pos_original(self, i, j):
-        return self.tableroV[i][j] == 'x'   # True posicion lib, False bloq
+    def verificar_bloque(self, fila, colum, num):
+        dif_f = fila // 3
+        dif_c = colum // 3
+        for row in range(3):
+            for col in range(3):
+                if self.tablero[dif_f*3 + row][dif_c*3 + col] == num:
+                    return False
 
-    def verificar_bloque(self):
-        try:
-            for i in range(self.n3, self.n4):
-                for j in range(self.n1, self.n2):
-                    k = self.tablero[i][j]
-                    if self.num == k:
-                        return False
-        except():
-            return
-        while 0 == self.verificar_x():
-            if i == (self.n2 - 1) or self.n2 < 9:
-                self.n1 = self.n1 + 3
-                self.n2 = self.n2 + 3
-            else:
-                self.n1 = 0
-                self.n2 = 3
-                self.n4 = self.n4 + 3
-                if self.n4 > 9:
-                    return
-                else:
-                    self.n3 = self.n3 + 3
-
-    def verificar_fila_columna(self, i, j, num):
+    def verificar_fila_columna(self, fila, colum, num):
         for columna in range(0, 9):
-            if num == self.tablero[i][columna]:
+            if num == self.tablero[fila][columna]:
                 return False
         for fila in range(0, 9):
-            if num == self.tablero[fila][j]:
+            if num == self.tablero[fila][colum]:
                 return False
 
-    def verificar_espacio(self):
-        for i in range(self.n3, self.n4):
-            for j in range(self.n1, self.n2):
-                if self.tablero[i][j] == 'x':
-                    return i, j
-
-    def verificacion(self):
-        k = self.verificar_espacio()    # lista con fila y columna
-        if self.verificar_pos_original(self.fila, self.colum) is True:
-            if self.verificar_bloque() is None:
-                if self.verificar_fila_columna(k[0], k[1], self.num) is None:
-                    return "Numero y posicion validas"
+    def verificacion(self, fila, colum, num):
+        if self.verificar_pos_original(fila, colum) is True:
+            if self.verificar_bloque(fila, colum, num) is None:
+                if self.verificar_fila_columna(fila, colum, num) is None:
+                    return "Valido"
                 else:
                     return "El numero esta en una fila o columna"
             else:
@@ -91,12 +56,10 @@ class Sudoku():
         else:
             return "Esta posicion no puede ser modificada"
 
-    def ingreso(self):
-        self.tablero[self.fila][self.colum] = self.num
+    def ingreso(self, fila, colum, num):
+        self.tablero[fila][colum] = num
 
     def game_status(self):
-        i = 0
-        j = 0
         for i in range(0, 9):
             for j in range(0, 9):
                 if self.tablero[i][j] == 'x':
