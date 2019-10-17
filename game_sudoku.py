@@ -1,29 +1,30 @@
 class Sudoku():
-    def __init__(self, tablero):
+    def __init__(self, table):
         self.tablero = [[0 for __ in range(9)] for _ in range(9)]
-        self.tableroV = tablero
+        self.tableroV = [[0 for __ in range(9)] for _ in range(9)]
+        self.tableroR = table
         i = -1
         j = -1
-        for fila in self.tableroV:
+        for fila in self.tableroR:
             i += 1
             j = -1
             for valor in fila:
                 j += 1
                 if valor.isdigit():
                     self.tablero[i][j] = valor
+                    self.tableroV[i][j] = valor
                 if valor == 'x':
                     self.tablero[i][j] = valor
-        self.tablero = self.tableroV.copy()
+                    self.tableroV[i][j] = valor
 
     def ingresar(self, x, y, num):
-        val = self.juego.verificacion(x, y, num)
+        val = self.verificacion(x, y, num)
         if val == "Valido":
-            self.juego.ingreso(x, y, num)
-            if self.juego.game_status:
+            self.tablero[x][y] = num
+            if self.game_status():
                 return 'Juego Terminado'
             return 'Numero ingresado'
-        else:
-            return val
+        return val
 
     def verificar_pos_original(self, fila, colum):
         return self.tableroV[fila][colum] == 'x'
@@ -35,6 +36,7 @@ class Sudoku():
             for col in range(3):
                 if self.tablero[dif_f*3 + row][dif_c*3 + col] == num:
                     return False
+        return True
 
     def verificar_fila_columna(self, fila, colum, num):
         for columna in range(0, 9):
@@ -43,21 +45,19 @@ class Sudoku():
         for fila in range(0, 9):
             if num == self.tablero[fila][colum]:
                 return False
+        return True
 
     def verificacion(self, fila, colum, num):
         if self.verificar_pos_original(fila, colum) is True:
-            if self.verificar_bloque(fila, colum, num) is None:
-                if self.verificar_fila_columna(fila, colum, num) is None:
+            if self.verificar_fila_columna(fila, colum, num) is True:
+                if self.verificar_bloque(fila, colum, num) is True:
                     return "Valido"
                 else:
-                    return "El numero esta en una fila o columna"
+                    return "El numero esta en el bloque"
             else:
-                return "El numero esta en el bloque"
+                return "El numero esta en una fila o columna"
         else:
             return "Esta posicion no puede ser modificada"
-
-    def ingreso(self, fila, colum, num):
-        self.tablero[fila][colum] = num
 
     def game_status(self):
         for i in range(0, 9):

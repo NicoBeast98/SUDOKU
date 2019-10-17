@@ -1,3 +1,4 @@
+import os
 from game_sudoku import Sudoku
 from api import api
 
@@ -8,15 +9,27 @@ class Interface():
         self.tablero = api()
         self.game = Sudoku(self.tablero)
 
-    def interfaz(self):
-        self.imprimir_tablero
-        f = self.ingreso('fila')
-        c = self.ingreso('columna')
-        n = self.ingreso('numero')
+    def Menu(self):
+        self.jugando()
 
-    def ingreso(self, action):
+    def jugando(self):
+        os.system("clear")
+        self.imprimir_tablero
+        f = self.ingreso('fila', None)
+        c = self.ingreso('columna', None)
+        n = self.ingreso('numero', None)
+        ingreso = self.game.ingresar(f, c, n)
+        print(ingreso)
+        input('-Continue-')
+        self.jugando()
+
+
+    def ingreso(self, action, value):
+        # Cuando realize los test le paso la variable value por ahi
         print('\n >> Ingrese ', action, ':')
-        a = input()
+        if value is None:
+            value = input()
+        a = value
         try:
             if a.isdecimal:
                 a = int(a)
@@ -25,16 +38,16 @@ class Interface():
                         return a
                     else:
                         print('Ingrese un valor correcto')
-                        self.ingreso(action)
+                        self.ingreso(action, None)
                 else:
                     if 0 < a <= 9:
                         return a
                     else:
                         print('Ingrese un valor correcto')
-                        self.ingreso(action)
-        except:
+                        self.ingreso(action, None)
+        except():
             print('Ingrese un valor correcto')
-            self.ingreso(action)
+            self.ingreso(action, None)
 
     @property
     def imprimir_tablero(self):
@@ -45,4 +58,4 @@ class Interface():
 
 
 juego = Interface()
-juego.interfaz()
+juego.Menu()
