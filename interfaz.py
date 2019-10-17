@@ -10,6 +10,9 @@ class Interface():
         self.game = Sudoku(self.tablero)
 
     def Menu(self):
+        print('\t-SUDOKU GAME-\n\nSeleccione con que tablero desea jugar')
+        print('1#>> [9x9]\n2#>> [4x4]')
+        size = input()
         self.jugando()
 
     def jugando(self):
@@ -23,29 +26,27 @@ class Interface():
         input('-Continue-')
         self.jugando()
 
-
     def ingreso(self, action, value):
         # Cuando realize los test le paso la variable value por ahi
         print('\n >> Ingrese ', action, ':')
         if value is None:
             value = input()
         a = value
-        try:
-            if a.isdecimal:
-                a = int(a)
-                if (action == 'fila' or action == 'columna'):
-                    if 0 <= a < 9:
-                        return a
-                    else:
-                        print('Ingrese un valor correcto')
-                        self.ingreso(action, None)
+        if a.isdecimal():
+            a = int(a)
+            if (action == 'fila' or action == 'columna'):
+                if 0 <= a < 9:
+                    return a
                 else:
-                    if 0 < a <= 9:
-                        return a
-                    else:
-                        print('Ingrese un valor correcto')
-                        self.ingreso(action, None)
-        except():
+                    print('Ingrese un valor correcto [0-9]')
+                    self.ingreso(action, None)
+            else:
+                if 0 < a <= 9:
+                    return str(a)
+                else:
+                    print('Ingrese un valor correcto [1-9]')
+                    self.ingreso(action, None)
+        else:
             print('Ingrese un valor correcto')
             self.ingreso(action, None)
 
