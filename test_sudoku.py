@@ -64,5 +64,6 @@ class TestSudoku(unittest.TestCase):
         value = self.game.game_status()
         self.assertEqual(value, None)
 
+
 if __name__ == "__main__":
     unittest.main()
