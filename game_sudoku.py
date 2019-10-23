@@ -2,10 +2,9 @@ class Sudoku():
     def __init__(self, table):
         self.tablero = [[0 for __ in range(9)] for _ in range(9)]
         self.tableroV = [[0 for __ in range(9)] for _ in range(9)]
-        self.tableroR = table
         i = -1
         j = -1
-        for fila in self.tableroR:
+        for fila in table:
             i += 1
             j = -1
             for valor in fila:
@@ -38,10 +37,13 @@ class Sudoku():
                     return False
         return True
 
-    def verificar_fila_columna(self, fila, colum, num):
-        for columna in range(0, 9):
-            if num == self.tablero[fila][columna]:
+    def verificar_fila(self, fila, num):
+        for colum in range(0, 9):
+            if num == self.tablero[fila][colum]:
                 return False
+        return True
+
+    def verificar_columna(self, colum, num):
         for fila in range(0, 9):
             if num == self.tablero[fila][colum]:
                 return False
@@ -49,13 +51,14 @@ class Sudoku():
 
     def verificacion(self, fila, colum, num):
         if self.verificar_pos_original(fila, colum) is True:
-            if self.verificar_fila_columna(fila, colum, num) is True:
-                if self.verificar_bloque(fila, colum, num) is True:
-                    return "Valido"
-                else:
-                    return "El numero esta en el bloque"
+            if self.verificar_bloque(fila, colum, num):
+                if self.verificar_fila(fila, num) is False:
+                    return 'El numero esta en la fila'
+                if self.verificar_columna(colum, num) is False:
+                    return 'El numero esta en la columna'
+                return 'Valido'
             else:
-                return "El numero esta en una fila o columna"
+                return 'El numero esta en el bloque'
         else:
             return "Esta posicion no puede ser modificada"
 

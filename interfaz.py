@@ -5,16 +5,18 @@ from api import api
 
 class Interface():
 
-    def __init__(self):
-        self.tablero = api()
+    def __init__(self, table):
+        self.tablero = table
         self.game = Sudoku(self.tablero)
-        self.tipo_de_juego = '1'
+        # self.tipo_de_juego = '1'
+        self.test = False
+        self.test_dato = ''
 
     def Menu(self):
-        print('\t-SUDOKU GAME-\n\nSeleccione con que tablero desea jugar')
-        print('1#>> [9x9]\n2#>> [4x4]')
-        # data = input()
-        # self.tipo_de_juego = self.ingreso(data, 'menu_op')
+        print('\t-SUDOKU GAME-\n\nPresione enter para empezar')
+        print('')
+        self.tablero = api()
+        # input()
         self.jugando()
 
     def jugando(self):
@@ -23,7 +25,7 @@ class Interface():
         f = self.fila_columna('fila')
         c = self.fila_columna('columna')
         n = self.numero('numero')
-        msg = self.game.ingresar(f, c, n)
+        msg = self.game.ingresar(f, c, n)   # Le mando los datos a Sudoku
         print(msg)
         input()
         if msg == 'Juego Terminado':
@@ -31,27 +33,28 @@ class Interface():
             input()
             self.Menu()
         self.jugando()
-# Como puedo testear funciones fila_columna, y numero?
 
     def fila_columna(self, tipo):
-        print(tipo.upper())
-        dato = input('>>')
+        if self.test is False:
+            print(tipo.upper(), ':')
+        dato = self.entrada()
         control = self.ingreso(dato, tipo)
         if control is True:
             return int(dato)
         else:
             print('<INGRESO INCORRECTO>')
-            self.fila_columna(tipo)
+            return self.fila_columna(tipo)
 
     def numero(self, tipo):
-        print(tipo.upper())
-        dato = input('>>')
+        if self.test is False:
+            print(tipo.upper(), ':')
+        dato = self.entrada()
         control = self.ingreso(dato, tipo)
         if control is True:
             return dato
         else:
             print('<INGRESO INCORRECTO>')
-            self.numero(tipo)
+            return self.numero(tipo)
 
     def ingreso(self, data, tipo):
         if data is not None and data.isdigit():
@@ -66,11 +69,6 @@ class Interface():
                     return True
                 else:
                     return False
-            if tipo == 'menu_op':
-                if 0 < int(data) < 3:
-                    return True
-                else:
-                    return False
         else:
             return False
 
@@ -80,6 +78,11 @@ class Interface():
             for j in range(0, 9):
                 print(self.game.tablero[i][j], end=" ")
             print(" ")
+
+    def entrada(self):  # Para la interaccion con el humano
+        if self.test is False:
+            return input('>>')
+        return self.test_dato
 
 
 # juego = Interface()
