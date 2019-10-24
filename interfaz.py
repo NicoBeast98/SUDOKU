@@ -5,26 +5,44 @@ from api import api
 
 class Interface():
 
-    def __init__(self, table):
-        self.tablero = table
-        self.game = Sudoku(self.tablero)
-        # self.tipo_de_juego = '1'
+    def __init__(self):
+        self.tabalero = [   # Tablero por defecto
+            '53xx7xxxx',
+            '6xx195xxx',
+            'x98xxxx6x',
+            '8xxx6xxx3',
+            '4xx8x3xx1',
+            '7xxx2xxx6',
+            'x6xxxx28x',
+            'xxx419xx5',
+            'xxxx8xx79']
+        self.game = Sudoku(self.tabalero)
         self.test = False
         self.test_dato = ''
 
     def Menu(self):
+        self.game.__init__(api())
         print('\t-SUDOKU GAME-\n\nPresione enter para empezar')
         print('')
-        self.tablero = api()
         # input()
         self.jugando()
 
     def jugando(self):
-        os.system("clear")
-        self.imprimir_tablero
-        f = self.fila_columna('fila')
-        c = self.fila_columna('columna')
-        n = self.numero('numero')
+        ingreso = True
+        while ingreso:
+            os.system("clear")
+            self.imprimir_tablero
+            print('Fila :')
+            f = self.data('fila')
+            print('Columna :')
+            c = self.data('columna')
+            print('Numero :')
+            n = self.data('numero')
+            if (n or f or c) == 'FAIL':
+                print('>Ingreso incorrecto<')
+            else:
+                ingreso = False
+            input('>GO<')
         msg = self.game.ingresar(f, c, n)   # Le mando los datos a Sudoku
         print(msg)
         input()
@@ -34,27 +52,16 @@ class Interface():
             self.Menu()
         self.jugando()
 
-    def fila_columna(self, tipo):
-        if self.test is False:
-            print(tipo.upper(), ':')
+    def data(self, tipo):
         dato = self.entrada()
         control = self.ingreso(dato, tipo)
         if control is True:
-            return int(dato)
+            if tipo == 'fila' or tipo == 'columna':
+                return int(dato)
+            elif tipo == 'numero':
+                return dato
         else:
-            print('<INGRESO INCORRECTO>')
-            return self.fila_columna(tipo)
-
-    def numero(self, tipo):
-        if self.test is False:
-            print(tipo.upper(), ':')
-        dato = self.entrada()
-        control = self.ingreso(dato, tipo)
-        if control is True:
-            return dato
-        else:
-            print('<INGRESO INCORRECTO>')
-            return self.numero(tipo)
+            return 'FAIL'
 
     def ingreso(self, data, tipo):
         if data is not None and data.isdigit():
