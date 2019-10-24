@@ -16,7 +16,6 @@ class TestSudoku(unittest.TestCase):
             'x6xxxx28x',    # 6
             'xxx419xx5',    # 7
             'xxxx8xx79'])   # 8
-           # 012345678
 
     @parameterized.expand([
         (0, 2, '4'),

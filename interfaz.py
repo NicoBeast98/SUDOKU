@@ -92,5 +92,5 @@ class Interface():
         return self.test_dato
 
 
-# juego = Interface()
-# juego.Menu()
+juego = Interface()
+juego.Menu()
