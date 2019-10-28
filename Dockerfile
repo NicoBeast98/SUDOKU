@@ -6,4 +6,4 @@ WORKDIR /SUDOKU
 
 RUN pip install -r requerimientos.txt
 
-CMD ["python", "./interfaz.py"]
+CMD ["python3", "./interfaz.py"]
