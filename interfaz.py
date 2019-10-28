@@ -23,9 +23,13 @@ class Interface():
 
     def Menu(self):
         self.game.__init__(api())
-        print('\t-SUDOKU GAME-\n\nPresione enter para empezar')
+        os.system("clear")
+        print(Back.WHITE + Fore.RED + '\t-SUDOKU GAME-\n')
+        print(Fore.BLACK + 'Presione enter para empezar')
+        print('Para detener el juego en cualquier momento>[Ctrl+C]')
+        print(Style.RESET_ALL)
         print('')
-        input()
+        input('>START<')
         self.jugando()
 
     def jugando(self):
@@ -40,16 +44,16 @@ class Interface():
             print('Numero :')
             n = self.data('numero')
             if (n or f or c) == 'FAIL':
-                print('>Ingreso incorrecto<')
+                print('>Ingreso no apropiado<')
             else:
                 ingreso = True
             input('>SEND<')
         msg = self.game.ingresar(f, c, n)   # Le mando los datos a Sudoku
         print(msg)
-        input()
+        input('>GO<')
         if msg == 'Juego Terminado':
             print('Felicitaciones Ganaste!\nVolver a menu>')
-            input()
+            input('>BACK<')
             self.Menu()
         self.jugando()
 
