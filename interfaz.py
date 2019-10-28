@@ -1,6 +1,7 @@
 import os
 from game_sudoku import Sudoku
 from api import api
+from colorama import Fore, Back, Style
 
 
 class Interface():
@@ -24,12 +25,12 @@ class Interface():
         self.game.__init__(api())
         print('\t-SUDOKU GAME-\n\nPresione enter para empezar')
         print('')
-        # input()
+        input()
         self.jugando()
 
     def jugando(self):
-        ingreso = True
-        while ingreso:
+        ingreso = False
+        while ingreso is False:
             os.system("clear")
             self.imprimir_tablero
             print('Fila :')
@@ -41,8 +42,8 @@ class Interface():
             if (n or f or c) == 'FAIL':
                 print('>Ingreso incorrecto<')
             else:
-                ingreso = False
-            input('>GO<')
+                ingreso = True
+            input('>SEND<')
         msg = self.game.ingresar(f, c, n)   # Le mando los datos a Sudoku
         print(msg)
         input()
@@ -83,8 +84,9 @@ class Interface():
     def imprimir_tablero(self):
         for i in range(0, 9):
             for j in range(0, 9):
-                print(self.game.tablero[i][j], end=" ")
+                print(Back.WHITE, Fore.BLACK + self.game.tablero[i][j], end=" ")
             print(" ")
+        print(Style.RESET_ALL)
 
     def entrada(self):  # Para la interaccion con el humano
         if self.test is False:
