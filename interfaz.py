@@ -61,7 +61,11 @@ class Interface():
             c = self.data('columna')
             print('Numero :')
             n = self.data('numero')
-            if (n or f or c) == 'FAIL':
+            if f == 'FAIL':
+                print('>Ingreso no apropiado<')
+            elif c == 'FAIL':
+                print('>Ingreso no apropiado<')
+            elif n == 'FAIL':
                 print('>Ingreso no apropiado<')
             else:
                 ingreso = True
@@ -89,8 +93,7 @@ class Interface():
     def ingreso(self, data, tipo):
         if data is not None and data.isdigit():
             if tipo == 'fila' or tipo == 'columna':
-                data = int(data)
-                if 0 <= data < 10:
+                if 0 <= int(data) < 10:
                     return True
                 else:
                     return False
@@ -114,10 +117,10 @@ class Interface():
     def entrada(self):  # Para la interaccion con el humano
         if self.test is False:
             op = input('>>')
-            if op == 'exit':
-                self.Menu()
-            else:
-                return op
+        if op == 'exit':
+            self.Menu()
+        else:
+            return op
         return self.test_dato
 
 
