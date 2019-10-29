@@ -22,15 +22,33 @@ class Interface():
         self.test_dato = ''
 
     def Menu(self):
-        self.game.__init__(api())
         os.system("clear")
         print(Back.WHITE + Fore.RED + '\t-SUDOKU GAME-\n')
-        print(Fore.BLACK + 'Presione enter para empezar')
-        print('Para detener el juego en cualquier momento>[Ctrl+C]')
+        print(Fore.BLACK + 'Presione enter para empezar\n')
+        print('Ingrese \'exit\' para salir del juego')
+        print(Fore.RED + '^ATENCION: Esta accion reiniciara el tablero.')
+        print(Fore.BLACK + '\n1)Empezar!\n2)Creditos\n3)Salir\n')
         print(Style.RESET_ALL)
-        print('')
-        input('>START<')
-        self.jugando()
+        op = input('Opcion: ')
+        if op == '1':
+            self.game.__init__(api())   # Consigo tablero de la api
+            return self.jugando()
+        elif op == '2':
+            os.system('clear')
+            print(Back.GREEN + 'Code by: NicoBeast98 :D')
+            print(Style.RESET_ALL)
+            input('>Back to menu>')
+            return self.Menu()
+        elif op == '3':
+            os.system("clear")
+            print(Back.WHITE + Fore.BLACK + 'Chao!')
+            print(Style.RESET_ALL)
+            exit()
+        else:
+            print(Fore.RED + '{Ingreso erroneo}')
+            print(Style.RESET_ALL)
+            input()
+            return self.Menu()
 
     def jugando(self):
         ingreso = False
@@ -86,15 +104,20 @@ class Interface():
 
     @property
     def imprimir_tablero(self):
+        print(Back.WHITE, Fore.BLACK)
         for i in range(0, 9):
             for j in range(0, 9):
-                print(Back.WHITE, Fore.BLACK + self.game.tablero[i][j], end=" ")
+                print(self.game.tablero[i][j], end=" ")
             print(" ")
         print(Style.RESET_ALL)
 
     def entrada(self):  # Para la interaccion con el humano
         if self.test is False:
-            return input('>>')
+            op = input('>>')
+            if op == 'exit':
+                self.Menu()
+            else:
+                return op
         return self.test_dato
 
 

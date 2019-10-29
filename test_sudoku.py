@@ -148,8 +148,8 @@ class TestSudoku(unittest.TestCase):
         self.assertFalse(value)
 
     def test_tablero_completo(self):
-        self.game = Sudoku([
-            '531171111',
+        self.game = Sudoku([    # Para poder completar el tablero se tinen que
+            '531171111',        # haber cumplido todos los ingresos.
             '611195111',
             '198111161',
             '811161113',
@@ -161,6 +161,21 @@ class TestSudoku(unittest.TestCase):
         ])
         value = self.game.game_status()
         self.assertEqual(value, None)
+
+    def test_tablero_incompleto(self):
+        self.game = Sudoku([
+            '531171111',
+            '611195111',
+            '198111161',
+            '811x61113',
+            '4118131x1',
+            '7x1121116',
+            '161111281',
+            '111419x15',
+            '111181179'
+        ])
+        value = self.game.game_status()
+        self.assertFalse(value)
 
 
 if __name__ == "__main__":
