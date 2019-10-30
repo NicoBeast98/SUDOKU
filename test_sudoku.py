@@ -147,6 +147,56 @@ class TestSudoku(unittest.TestCase):
         value = self.juego.verificar_pos_original(fila, colum)
         self.assertFalse(value)
 
+    @parameterized.expand([
+        (0, 2, '1'),
+        (2, 4, '3'),
+        (6, 8, '4'),
+        (4, 4, '5')
+    ])
+    def test_varificacion_valido(self, fila, columna, num):
+        value = self.juego.verificacion(fila, columna, num)
+        self.assertEqual(value, 'Valido')
+
+    @parameterized.expand([
+        (0, 3, '4'),
+        (0, 6, '2'),
+        (4, 6, '2'),
+        (7, 1, '3')
+    ])
+    def test_varificacion_numero_en_columna(self, fila, columna, num):
+        value = self.juego.verificacion(fila, columna, num)
+        self.assertEqual(value, 'El numero esta en la columna')
+
+    @parameterized.expand([
+        (2, 4, '6'),
+        (4, 7, '4'),
+        (5, 2, '2'),
+        (7, 7, '1')
+    ])
+    def test_varificacion_numero_en_fila(self, fila, columna, num):
+        value = self.juego.verificacion(fila, columna, num)
+        self.assertEqual(value, 'El numero esta en la fila')
+
+    @parameterized.expand([
+        (1, 1, '3'),
+        (3, 5, '6'),
+        (5, 7, '1'),
+        (6, 2, '6')
+    ])
+    def test_varificacion_numero_en_bloque(self, fila, columna, num):
+        value = self.juego.verificacion(fila, columna, num)
+        self.assertEqual(value, 'El numero esta en el bloque')
+
+    @parameterized.expand([
+        (1, 5, '3'),
+        (4, 3, '6'),
+        (6, 6, '1'),
+        (8, 4, '6')
+    ])
+    def test_varificacion_numero_no_modificable(self, fila, columna, num):
+        value = self.juego.verificacion(fila, columna, num)
+        self.assertEqual(value, 'Esta posicion no puede ser modificada')
+
     def test_tablero_completo(self):
         self.game = Sudoku([    # Para poder completar el tablero se tinen que
             '531171111',        # haber cumplido todos los ingresos.
@@ -164,16 +214,15 @@ class TestSudoku(unittest.TestCase):
 
     def test_tablero_incompleto(self):
         self.game = Sudoku([
-            '531171111',
-            '611195111',
-            '198111161',
-            '811x61113',
-            '4118131x1',
-            '7x1121116',
-            '161111281',
-            '111419x15',
-            '111181179'
-        ])
+            '53xx7xxxx',
+            '6xx195xxx',
+            'x98xxxx6x',
+            '8xxx6xxx3',
+            '4xx8x3xx1',
+            '7xxx2xxx6',
+            'x6xxxx28x',
+            'xxx419xx5',
+            'xxxx8xx79'])
         value = self.game.game_status()
         self.assertFalse(value)
 

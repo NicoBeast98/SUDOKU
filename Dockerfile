@@ -8,6 +8,4 @@ RUN pip install -r requerimientos.txt
 
 RUN python3 test_sudoku.py
 
-RUN python3 test_api.py
-
 CMD ["python3", "./interfaz.py"]
