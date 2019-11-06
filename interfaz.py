@@ -91,9 +91,9 @@ class Interface():
             return 'FAIL'
 
     def ingreso(self, data, tipo):
-        if data is not None and data.isdigit():
+        if (data is not None) and (data.isdigit()):
             if tipo == 'fila' or tipo == 'columna':
-                if 0 <= int(data) < 10:
+                if 0 <= int(data) < 9:
                     return True
                 else:
                     return False
@@ -115,14 +115,15 @@ class Interface():
         print(Style.RESET_ALL)
 
     def entrada(self):  # Para la interaccion con el humano
+        op = 'a'
         if self.test is False:
             op = input('>>')
         if op == 'exit':
             self.Menu()
-        else:
+        elif op != 'a':
             return op
         return self.test_dato
 
 
-juego = Interface()
-juego.Menu()
+# juego = Interface()
+# juego.Menu()
